@@ -16,6 +16,7 @@
     WebIntent.prototype.EXTRA_EMAIL = "android.intent.extra.EMAIL";
     WebIntent.prototype.ACTION_CALL = "android.intent.action.CALL";
     WebIntent.prototype.ACTION_SENDTO = "android.intent.action.SENDTO";
+    WebIntent.prototype.ACTION_NDEF_DISCOVERED = "android.nfc.action.NDEF_DISCOVERED";
 
     WebIntent.prototype.startActivity = function(params, success, fail) {
         return cordova.exec(function(args) {
@@ -47,6 +48,14 @@
         }, function(args) {
             fail(args);
         }, 'WebIntent', 'getExtra', [params]);
+    };
+
+    WebIntent.prototype.getExtras = function(params, success, fail) {
+        return cordova.exec(function(args) {
+            success(args);
+        }, function(args) {
+            fail(args);
+        }, 'WebIntent', 'getExtras', [params]);
     };
 
 
