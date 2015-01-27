@@ -106,9 +106,14 @@ public class WebIntent extends CordovaPlugin {
             } else if (action.equals("getNFCTag")) {
                 try {
                     Intent i = this.cordova.getActivity().getIntent();
+
                     Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                    //return new PluginResult(PluginResult.Status.OK, json);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString() + " Test"));
+                    if(tag == null) {
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "Tag not found!"));
+                    } else {
+                        //return new PluginResult(PluginResult.Status.OK, json);
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString() + " Test"));
+                    }
                     return true;
                 } catch(Exception ex) {
                     String errorMessage=ex.toString();
