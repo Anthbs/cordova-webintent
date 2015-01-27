@@ -2,6 +2,8 @@ package com.borismus.webintent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
 
 import org.apache.cordova.CordovaActivity;
 import org.json.JSONArray;
@@ -9,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.net.Uri;
 import android.text.Html;
 
