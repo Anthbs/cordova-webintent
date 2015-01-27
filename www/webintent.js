@@ -50,7 +50,7 @@
         }, 'WebIntent', 'getExtra', [params]);
     };
 
-    WebIntent.prototype.getExtras = function (params, success, fail) {
+    WebIntent.prototype.getNFCTag = function (params, success, fail) {
         return cordova.exec(function (args) {
             success(args);
         }, function (args) {
