@@ -104,7 +104,7 @@ public class WebIntent extends CordovaPlugin {
                     return false;
                 }
             } else if (action.equals("getNFCTag")) {
-
+                Log.d("NFCIntent", "Attempting to get tag");
                 Intent i = ((CordovaActivity)this.cordova.getActivity()).getIntent();
                 Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 Log.d("NFCIntent", tag.toString());
@@ -168,7 +168,7 @@ public class WebIntent extends CordovaPlugin {
                 return true;
             }
             //return new PluginResult(PluginResult.Status.INVALID_ACTION);
-            callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.INVALID_ACTION));
+            callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.INVALID_ACTION, "Invalid Action"));
             return false;
         } catch (JSONException e) {
             e.printStackTrace();
