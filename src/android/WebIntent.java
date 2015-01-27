@@ -38,6 +38,48 @@ import org.apache.cordova.PluginResult;
 public class WebIntent extends CordovaPlugin {
 
     private CallbackContext onNewIntentCallbackContext = null;
+    private NdefMessage[] msgs = null;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMsgs != null) {
+                msgs = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++) {
+                    msgs[i] = (NdefMessage) rawMsgs[i];
+                }
+            }
+        }
+    }
+
+    private String readText(NdefRecord record) throws UnsupportedEncodingException {
+        /*
+         * See NFC forum specification for "Text Record Type Definition" at 3.2.1
+         *
+         * http://www.nfc-forum.org/specs/
+         *
+         * bit_7 defines encoding
+         * bit_6 reserved for future use, must be 0
+         * bit_5..0 length of IANA language code
+         */
+
+        byte[] payload = record.getPayload();
+
+        // Get the Text Encoding
+        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+
+        // Get the Language Code
+        int languageCodeLength = payload[0] & 0063;
+
+        // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
+        // e.g. "en"
+
+        // Get the Text
+        return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+    }
 
     //public boolean execute(String action, JSONArray args, String callbackId) {
     @Override
@@ -107,12 +149,11 @@ public class WebIntent extends CordovaPlugin {
                 try {
                     Intent i = this.cordova.getActivity().getIntent();
 
-                    Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                    if(tag == null) {
+                    if(msgs.length == 0) {
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "Tag not found!"));
                     } else {
                         //return new PluginResult(PluginResult.Status.OK, json);
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString() + " Test"));
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, readText(msgs[0].getRecords()[0])));
                     }
                     return true;
                 } catch(Exception ex) {
