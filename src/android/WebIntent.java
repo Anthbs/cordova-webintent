@@ -110,8 +110,10 @@ public class WebIntent extends CordovaPlugin {
                     while (it.hasNext()) {
                         String key = it.next();
                         json.put(key, bundle.get(key));
+                        Log.d("IntentPlugin", bundle.get(key));
                     }
                 }
+
 
                 //return new PluginResult(PluginResult.Status.OK, json);
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
