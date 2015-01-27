@@ -15,11 +15,14 @@ import android.os.Bundle;
 import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.PluginResult;
+
 
 /**
  * WebIntent is a PhoneGap plugin that bridges Android intents and web
@@ -33,8 +36,6 @@ import org.apache.cordova.PluginResult;
  * 
  */
 public class WebIntent extends CordovaPlugin {
-
-    private CallbackContext onNewIntentCallbackContext = null;
 
     //public boolean execute(String action, JSONArray args, String callbackId) {
     @Override
@@ -100,25 +101,13 @@ public class WebIntent extends CordovaPlugin {
                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
                     return false;
                 }
-            } else if (action.equals("getExtras")) {
+            } else if (action.equals("getNFCTag")) {
+
                 Intent i = ((CordovaActivity)this.cordova.getActivity()).getIntent();
-                JSONObject json = new JSONObject();
-
-                Bundle bundle = i.getExtras();
-                if (bundle != null) {
-                    Set<String> keys = bundle.keySet();
-                    Iterator<String> it = keys.iterator();
-                    while (it.hasNext()) {
-                        String key = it.next();
-                        Object value = bundle.get(key);
-                        json.put(key, value.toString());
-                        Log.d("IntentPlugin", String.format("%s %s (%s)", key, value.toString(), value.getClass().getName()));
-                    }
-                }
-
-
+                Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                Log.d("NFCIntent", tag.toString())
                 //return new PluginResult(PluginResult.Status.OK, json);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString()));
                 return true;
 
             } else if (action.equals("getUri")) {
