@@ -110,7 +110,7 @@ public class WebIntent extends CordovaPlugin {
                     Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                     Log.d("NFCIntent", tag.toString());
                     //return new PluginResult(PluginResult.Status.OK, json);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString()));
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString() + " Test"));
                     return true;
                 } catch(Exception ex) {
                     String errorMessage=ex.getMessage();
