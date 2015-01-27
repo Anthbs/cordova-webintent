@@ -17,6 +17,7 @@ import android.text.Html;
 import android.util.Log;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.NdefMessage;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
