@@ -105,17 +105,15 @@ public class WebIntent extends CordovaPlugin {
                 }
             } else if (action.equals("getNFCTag")) {
                 try {
-                    Log.d("NFCIntent", "Attempting to get tag");
                     Intent i = ((CordovaActivity)this.cordova.getActivity()).getIntent();
                     Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                    Log.d("NFCIntent", tag.toString());
                     //return new PluginResult(PluginResult.Status.OK, json);
                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString() + " Test"));
                     return true;
                 } catch(Exception ex) {
                     String errorMessage=ex.getMessage();
                     //return new PluginResult(PluginResult.Status.JSON_EXCEPTION);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, errorMessage));
+                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, errorMessage + "Error"));
                 }
 
             } else if (action.equals("getUri")) {
