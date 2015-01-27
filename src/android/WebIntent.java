@@ -105,7 +105,7 @@ public class WebIntent extends CordovaPlugin {
                 }
             } else if (action.equals("getNFCTag")) {
                 try {
-                    Intent i = ((CordovaActivity)this.cordova.getActivity()).getIntent();
+                    Intent i = this.cordova.getActivity().getIntent();
                     Tag tag = i.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                     //return new PluginResult(PluginResult.Status.OK, json);
                     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, tag.toString() + " Test"));
