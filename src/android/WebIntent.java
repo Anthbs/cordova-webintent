@@ -110,8 +110,9 @@ public class WebIntent extends CordovaPlugin {
                     Iterator<String> it = keys.iterator();
                     while (it.hasNext()) {
                         String key = it.next();
-                        json.put(key, bundle.get(key));
-                        Log.d("IntentPlugin", bundle.get(key));
+                        Object value = bundle.get(key);
+                        json.put(key, value.toString());
+                        Log.d("IntentPlugin", String.format("%s %s (%s)", key, value.toString(), value.getClass().getName()));
                     }
                 }
 
