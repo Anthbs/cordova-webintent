@@ -1,25 +1,16 @@
 package com.borismus.webintent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Iterator;
-import java.io.UnsupportedEncodingException;
+import java.util.List;
 
-import org.apache.cordova.CordovaActivity;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.net.Uri;
-import android.text.Html;
-import android.util.Log;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
+import android.content.IntentFilter;
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
 import android.os.Parcelable;
 
 import org.apache.cordova.CallbackContext;
