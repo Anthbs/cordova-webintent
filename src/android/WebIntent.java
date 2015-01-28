@@ -205,6 +205,9 @@ public class WebIntent extends CordovaPlugin {
                 }
             }
         }
+        if(nfcData == "") {
+            nfcData = intent.getAction().toString();
+        }
         return nfcData;
     }
 
