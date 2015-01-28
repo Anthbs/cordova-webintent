@@ -106,7 +106,7 @@ public class WebIntent extends CordovaPlugin {
 	}
 
     public String GetTag(Intent intent) {
-        Log.d(intent.getAction());
+        Log.d("WebIntentG_GetTag",intent.getAction());
         String nfcData = "";
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if(rawMsgs != null && rawMsgs.length > 0) {
