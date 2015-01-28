@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Iterator;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.cordova.CordovaActivity;
 import org.json.JSONArray;
