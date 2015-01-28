@@ -155,7 +155,7 @@ public class WebIntent extends CordovaPlugin {
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "Tag not found!"));
                     } else {
                         //return new PluginResult(PluginResult.Status.OK, json);
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, readText(msgs[0].getRecords().length)));
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, msgs[0].getRecords().length));
                     }
                     return true;
                 } catch(Exception ex) {
