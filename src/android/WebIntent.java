@@ -79,7 +79,7 @@ public class WebIntent extends CordovaPlugin {
     }
 
     @Override
-	protected void onResume(boolean multitasking) {
+	public void onResume(boolean multitasking) {
 
 		super.onResume(multitasking);
 
@@ -87,7 +87,7 @@ public class WebIntent extends CordovaPlugin {
 	}
 
 	@Override
-	protected void onPause(boolean multitasking) {
+	public void onPause(boolean multitasking) {
 
 		super.onPause(multitasking);
 
