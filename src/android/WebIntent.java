@@ -222,12 +222,6 @@ public class WebIntent extends CordovaPlugin {
         }
     }
 
-    @Override
-    public void onResume(boolean multitasking) {
-        super.onResume(multitasking);
-        message = GetTag();
-    }
-
     void startActivity(String action, Uri uri, String type, Map<String, String> extras) {
         Intent i = (uri != null ? new Intent(action, uri) : new Intent(action));
         
