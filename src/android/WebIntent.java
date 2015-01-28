@@ -23,6 +23,13 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.PluginResult;
 
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaActivity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * WebIntent is a PhoneGap plugin that bridges Android intents and web
@@ -37,14 +44,15 @@ import org.apache.cordova.PluginResult;
  */
 public class WebIntent extends CordovaPlugin {
 
-    private static final String TAG = HelloWorldNFCActivity.class.getName();
+    private String message = "";
+    private static final String TAG = WebIntent.class.getName();
     private NfcAdapter nfcAdapter;
 	private PendingIntent nfcPendingIntent;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this.cordova.getActivity());
+        nfcPendingIntent = PendingIntent.getActivity(this.cordova.getActivity(), 0, new Intent(this.cordova.getActivity(), this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     }
 
 
@@ -71,17 +79,17 @@ public class WebIntent extends CordovaPlugin {
     }
 
     @Override
-	protected void onResume() {
+	protected void onResume(boolean multitasking) {
 
-		super.onResume();
+		super.onResume(multitasking);
 
 		enableForegroundMode();
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause(boolean multitasking) {
 
-		super.onPause();
+		super.onPause(multitasking);
 
 		disableForegroundMode();
 	}
@@ -90,12 +98,12 @@ public class WebIntent extends CordovaPlugin {
 
 		IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for all
 		IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
-		nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
+		nfcAdapter.enableForegroundDispatch(this.cordova.getActivity(), nfcPendingIntent, writeTagFilters, null);
 	}
 
     public void disableForegroundMode() {
 
-		nfcAdapter.disableForegroundDispatch(this);
+		nfcAdapter.disableForegroundDispatch(this.cordova.getActivity());
 	}
 
     public String GetTag(Intent intent) {
