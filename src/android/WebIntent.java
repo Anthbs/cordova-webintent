@@ -43,8 +43,8 @@ public class WebIntent extends CordovaPlugin {
     private NdefMessage[] msgs = null;
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
         Intent intent = this.cordova.getActivity().getIntent();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
