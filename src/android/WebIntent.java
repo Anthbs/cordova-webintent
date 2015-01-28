@@ -112,8 +112,7 @@ public class WebIntent extends CordovaPlugin {
             } else if (action.equals("getNFCTag")) {
                 try {
                     if(message == "") {
-                        message = GetTag();
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "Tag not found!" + message));
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "Tag not found!"));
                     } else {
                         //return new PluginResult(PluginResult.Status.OK, json);
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, message));
@@ -192,9 +191,8 @@ public class WebIntent extends CordovaPlugin {
         }
     }
 
-    public String GetTag() {
+    public String GetTag(Intent intent) {
         String nfcData = "";
-        Intent intent = this.cordova.getActivity().getIntent();
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         if(rawMsgs != null && rawMsgs.length > 0) {
             NdefMessage msg = ((NdefMessage)rawMsgs[0]);
@@ -215,7 +213,7 @@ public class WebIntent extends CordovaPlugin {
     @Override
     public void onNewIntent(Intent intent) {
     	 
-        message = GetTag();
+        message = GetTag(intent);
 
         if (this.onNewIntentCallbackContext != null) {
         	PluginResult result = new PluginResult(PluginResult.Status.OK, intent.getDataString());
