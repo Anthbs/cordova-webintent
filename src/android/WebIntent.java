@@ -45,55 +45,6 @@ public class WebIntent extends CordovaPlugin {
     private NdefMessage[] msgs = null;
     private String message = "";
 
-
-    @Override
-    public void onResume(boolean multitasking) {
-        super.onResume(multitasking);
-        message = GetTag();
-    }
-
-    private String readText(NdefRecord record) throws UnsupportedEncodingException {
-        /*
-         * See NFC forum specification for "Text Record Type Definition" at 3.2.1
-         *
-         * http://www.nfc-forum.org/specs/
-         *
-         * bit_7 defines encoding
-         * bit_6 reserved for future use, must be 0
-         * bit_5..0 length of IANA language code
-         */
-
-        byte[] payload = record.getPayload();
-
-        // Get the Text Encoding
-        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-
-        // Get the Language Code
-        int languageCodeLength = payload[0] & 0063;
-
-        // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
-        // e.g. "en"
-
-        // Get the Text
-        return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
-    }
-
-    public String GetTag() {
-        String nfcData = "";
-        Intent intent = this.cordova.getActivity().getIntent();
-        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-        if(rawMsgs != null && rawMsgs.length > 0) {
-            NdefMessage msg = ((NdefMessage)rawMsgs[0]);
-            if(msg != null && msg.getRecords().length > 0) {
-                NdefRecord relayRecord = msg.getRecords()[0];
-                if(relayRecord != null) {
-                    nfcData = new String(relayRecord.getPayload());
-                }
-            }
-        }
-        return nfcData;
-    }
-
     //public boolean execute(String action, JSONArray args, String callbackId) {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
@@ -241,6 +192,23 @@ public class WebIntent extends CordovaPlugin {
         }
     }
 
+    public String GetTag() {
+        String nfcData = "";
+        Intent intent = this.cordova.getActivity().getIntent();
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        if(rawMsgs != null && rawMsgs.length > 0) {
+            NdefMessage msg = ((NdefMessage)rawMsgs[0]);
+            if(msg != null && msg.getRecords().length > 0) {
+                NdefRecord relayRecord = msg.getRecords()[0];
+                if(relayRecord != null) {
+                    nfcData = new String(relayRecord.getPayload());
+                }
+            }
+        }
+        return nfcData;
+    }
+
+
     @Override
     public void onNewIntent(Intent intent) {
     	 
@@ -251,6 +219,12 @@ public class WebIntent extends CordovaPlugin {
         	result.setKeepCallback(true);
             this.onNewIntentCallbackContext.sendPluginResult(result);
         }
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
+        message = GetTag();
     }
 
     void startActivity(String action, Uri uri, String type, Map<String, String> extras) {
