@@ -43,6 +43,8 @@ public class WebIntent extends CordovaPlugin {
 
     private CallbackContext onNewIntentCallbackContext = null;
     private NdefMessage[] msgs = null;
+    private String message = null;
+
 
     @Override
     public void onResume(boolean multitasking) {
@@ -56,6 +58,17 @@ public class WebIntent extends CordovaPlugin {
                     msgs[i] = (NdefMessage) rawMsgs[i];
                 }
             }
+        }
+    }
+    @Override
+    public void onNewIntent(Intent intent) {
+        // When an NFC tag is being written, call the write tag function when an intent is
+        // received that says the tag is within range of the device and ready to be written to
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        String nfcMessage = intent.getStringExtra("nfcMessage");
+
+        if(nfcMessage != null) {
+            message = nfcMessage;
         }
     }
 
@@ -151,11 +164,11 @@ public class WebIntent extends CordovaPlugin {
                 }
             } else if (action.equals("getNFCTag")) {
                 try {
-                    if(msgs.length == 0) {
+                    if(message == null) {
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "Tag not found!"));
                     } else {
                         //return new PluginResult(PluginResult.Status.OK, json);
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, msgs[0].getRecords().length));
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, message));
                     }
                     return true;
                 } catch(Exception ex) {
