@@ -60,17 +60,6 @@ public class WebIntent extends CordovaPlugin {
             }
         }
     }
-    @Override
-    public void onNewIntent(Intent intent) {
-        // When an NFC tag is being written, call the write tag function when an intent is
-        // received that says the tag is within range of the device and ready to be written to
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        String nfcMessage = intent.getStringExtra("nfcMessage");
-
-        if(nfcMessage != null) {
-            message = nfcMessage;
-        }
-    }
 
     private String readText(NdefRecord record) throws UnsupportedEncodingException {
         /*
@@ -247,6 +236,13 @@ public class WebIntent extends CordovaPlugin {
     @Override
     public void onNewIntent(Intent intent) {
     	 
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        String nfcMessage = intent.getStringExtra("nfcMessage");
+
+        if(tag != null) {
+            message = tag.toString();
+        }
+
         if (this.onNewIntentCallbackContext != null) {
         	PluginResult result = new PluginResult(PluginResult.Status.OK, intent.getDataString());
         	result.setKeepCallback(true);
