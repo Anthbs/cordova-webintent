@@ -19,6 +19,7 @@ import android.util.Log;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.os.Parcelable;
 
 import org.apache.cordova.CallbackContext;
