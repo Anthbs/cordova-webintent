@@ -73,9 +73,7 @@ public class WebIntent extends CordovaPlugin {
 
     @Override
     public void onNewIntent(Intent intent) {
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-            message = GetTag(intent);
-        }
+        message = GetTag(intent);
     }
 
     @Override
